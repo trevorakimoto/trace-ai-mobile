@@ -3,8 +3,9 @@
     "name": "trace-ai-mobile",
     "slug": "trace-ai-mobile",
     "version": "1.0.0",
+    "scheme": "tracetravel",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.jpeg",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash-icon.png",
