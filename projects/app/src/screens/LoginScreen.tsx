@@ -12,14 +12,21 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useColorScheme } from "react-native";
 import { colors } from "../theme/colors";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../navigation/types";
 import { login, signup } from "../services/auth";
+
+type Nav = NativeStackNavigationProp<RootStackParamList>;
 
 export default function LoginScreen() {
   const scheme = useColorScheme();
   const theme = scheme === "dark" ? colors.dark : colors.light;
+  const navigation = useNavigation<Nav>();
+  const route = useRoute<RouteProp<RootStackParamList, "Login">>();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSignup, setIsSignup] = useState(false);
+  const [isSignup, setIsSignup] = useState(route.params?.mode !== "signin");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -44,6 +51,17 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background }}>
+      {/* Back to landing */}
+      {navigation.canGoBack() && (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ paddingHorizontal: 20, paddingTop: 8 }}
+        >
+          <Text style={{ color: theme.mutedForeground, fontSize: 16 }}>
+            ← Back
+          </Text>
+        </TouchableOpacity>
+      )}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1, justifyContent: "center", paddingHorizontal: 24 }}
